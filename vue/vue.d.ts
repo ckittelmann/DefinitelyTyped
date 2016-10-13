@@ -1,12 +1,7 @@
-// Type definitions for vuejs 1.0.21
+// Type definitions for vuejs 2.0.2
 // Project: https://github.com/vuejs/vue
-// Definitions by: odangosan <https://github.com/odangosan>, kaorun343 <https://github.com/kaorun343>
+// Definitions by: odangosan <https://github.com/odangosan>, kaorun343 <https://github.com/kaorun343>, ckittelmann <https://github.com/ckittelmann>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
-interface Array<T> {
-    $remove(item: T): Array<T>;
-    $set(index: any, val: T): T;
-}
 
 declare namespace vuejs {
 
@@ -14,9 +9,7 @@ declare namespace vuejs {
         type?: { new (...args: any[]): any; } | { new (...args: any[]): any; }[];
         required?: boolean;
         default?: any;
-        twoWay?: boolean;
         validator?(value: any): boolean;
-        coerce?(value: any): any;
     }
 
     interface ComputedOption {
@@ -36,7 +29,6 @@ declare namespace vuejs {
         unbind?(): any;
         params?: string[];
         deep?: boolean;
-        twoWay?: boolean;
         acceptStatement?: boolean;
         terminal?: boolean;
         priority?: number;
@@ -59,25 +51,6 @@ declare namespace vuejs {
         write?: Function;
     }
 
-    interface TransitionOption {
-        css?: boolean;
-        animation?: string;
-        enterClass?: string;
-        leaveClass?: string;
-        beforeEnter?(el: HTMLElement): void;
-        enter?(el: HTMLElement, done?: () => void): void;
-        afterEnter?(el: HTMLElement): void;
-        enterCancelled?(el: HTMLElement): void;
-        beforeLeave?(el: HTMLElement): void;
-        leave?(el: HTMLElement, done?: () => void): void;
-        afterLeave?(el: HTMLElement): void;
-        leaveCancelled?(el: HTMLElement): void;
-        stagger?(index: number): number;
-        enterStagger?(index: number): number;
-        leaveStagger?(index: number): number;
-        [key: string]: any;
-    }
-
     interface ComponentOption {
         data?: { [key: string]: any } | Function;
         props?: string[] | { [key: string]: (PropOption | { new (...args: any[]): any; } | { new (...args: any[]): any; }[]) };
@@ -87,31 +60,23 @@ declare namespace vuejs {
         el?: string | HTMLElement | (() => HTMLElement);
         template?: string;
         replace?: boolean;
-        init?(): void;
         created?(): void;
-        beforeCompile?(): void;
-        compiled?(): void;
-        ready?(): void;
-        attached?(): void;
-        detached?(): void;
         beforeDestroy?(): void;
         destroyed?(): void;
+        mounted?(): void;
         activate?: (done: () => void) => void;
         directives?: { [key: string]: (DirectiveOption | Function) };
         elementDirectives?: { [key: string]: (DirectiveOption | Function) };
         filters?: { [key: string]: (Function | FilterOption) };
         components?: { [key: string]: any };
-        transitions?: { [key: string]: TransitionOption };
         partials?: { [key: string]: string };
         parent?: Vue;
-        events?: { [key: string]: ((...args: any[]) => (boolean | void)) | string };
         mixins?: Object[];
         name?: string;
         [key: string]: any;
     }
 
     interface Vue {
-        $data: any;
         $el: HTMLElement;
         $options: Object;
         $parent: Vue;
@@ -121,27 +86,17 @@ declare namespace vuejs {
         $els: Object;
 
         // instance/api/data.js
-        $get(exp: string, asStatement?: boolean): any;
         $set<T>(key: string | number, value: T): T;
         $delete(key: string): void;
-        $eval(expression: string): string;
-        $interpolate(expression: string): string;
-        $log(keypath?: string): void;
         $watch(expOrFn: string | Function, callback: ((newVal: any, oldVal?: any) => any) | string, options?: { deep?: boolean, immidiate?: boolean }): Function;
         // instance/api/dom.js
         $nextTick(callback: Function): void;
-        $appendTo(target: (HTMLElement | string), callback?: Function, withTransition?: boolean): this;
         $prependTo(target: (HTMLElement | string), callback?: Function, withTransition?: boolean): this;
-        $before(target: (HTMLElement | string), callback?: Function, withTransition?: boolean): this;
-        $after(target: (HTMLElement | string), callback?: Function, withTransition?: boolean): this;
-        $remove(callback?: Function): this;
         // instance/api/events.js
         $on(event: string, callback: Function): this;
         $once(event: string, callback: Function): this;
         $off(event: string, callback?: Function): this;
         $emit(event: string, ...args: any[]): this;
-        $broadcast(event: string, ...args: any[]): this;
-        $dispatch(event: string, ...args: any[]): this;
         // instance/api/lifecycle.js
         $mount(elementOrSelector?: (HTMLElement | string)): this;
         $destroy(remove?: boolean): void;
@@ -180,7 +135,6 @@ declare namespace vuejs {
         isPlainObject(obj: any): boolean;
         isArray: typeof Array.isArray;
         def(obj: Object, key: string, value: any, enumerable?: boolean): void;
-        debounce(func: Function, wait: number): Function;
         indexOf<T>(arr: Array<T>, obj: T): number;
         cancellable(fn: Function): Function;
         looseEqual(a: any, b: any): boolean;
@@ -254,8 +208,6 @@ declare namespace vuejs {
         filter(id: string): any;
         component(id: string, definition: ComponentOption): any;
         component(id: string): any;
-        transition<T extends TransitionOption>(id: string, hooks: T): T;
-        transition(id: string): TransitionOption;
         partial(id: string, partial: string): string;
         partial(id: string): string;
     }
