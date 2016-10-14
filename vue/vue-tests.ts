@@ -3,11 +3,7 @@
 namespace TestConfig {
   "use strict";
 
-  Vue.config.debug = true;
-  Vue.config.delimiters = ["${", "}"];
-  Vue.config.unsafeDelimiters = ['{!!', '!!}'];
   Vue.config.silent = true;
-  Vue.config.async = false;
   Vue.config.devtools = true;
 }
 
@@ -76,6 +72,9 @@ namespace TestGlobalAPI {
         get: function() { return this.a; },
         set: function(val: number) { this.d = val; }
       }
+    },
+    mounted: function() {
+
     }
   });
   Vue.component("component", {
@@ -93,42 +92,6 @@ namespace TestGlobalAPI {
       callback();
     }
   });
-  var transition = Vue.transition("transition");
-  Vue.transition("transition", transition);
-  Vue.transition("transition", {
-    css: false,
-    stagger: function(index) {
-      return index;
-    },
-    beforeEnter: function(el) {
-      el.textContent = 'beforeEnter';
-    },
-    enter: function(el, done) {
-      el.textContent = 'enter';
-      setTimeout(function() {
-        done();
-      }, 1000);
-    },
-    afterEnter: function(el) {
-      el.textContent = 'afterEnter';
-    },
-    enterCancelled: function(el) {
-      el.textContent = 'enterCancelled';
-    },
-    beforeLeave: function (el) {
-      el.textContent = 'beforeLeave';
-    },
-    leave: function (el, done) {
-      el.textContent = 'leave';
-      done();
-    },
-    afterLeave: function (el) {
-      el.textContent = 'afterLeave';
-    },
-    leaveCancelled: function (el) {
-      el.textContent = 'leaveCancelled';
-    }
-  });
   var myPartial: string = Vue.partial("my-partial", "<div>Hello</div>");
   myPartial = Vue.partial("my-partial");
   Vue.use(() => {}, {});
@@ -140,7 +103,6 @@ namespace TestInstanceProperty {
   "use strict";
 
   var vm = new Vue({el: '#app'});
-  var data: any = vm.$data;
   var el: HTMLElement = vm.$el;
   var options: any = vm.$options;
   var parent: any = vm.$parent;
@@ -160,26 +122,14 @@ namespace TestInscanceMethods {
   unwatch();
   vm.$watch('someObject', (value: any) => {}, {deep: true});
   vm.$watch('a', (value: any) => {}, {immidiate: true});
-  vm.$get('a.b');
   vm.$set('a.b', 2);
   vm.$delete('a');
-  var s: string = vm.$eval('msg | uppercase');
-  s = vm.$interpolate('{{msg}} world!');
-  vm.$log();
-  vm.$log('item');
 
   vm
     .$on('test', (msg: any) => {})
     .$once('testOnce', (msg: any) => {})
     .$off("event", () => {})
     .$emit("event", 1, 2)
-    .$dispatch("event", 1, 2, 3)
-    .$broadcast("event", 1, 2, 3, 4)
-
-    .$appendTo(document.createElement("div"), () => {})
-    .$before('#app', () => {})
-    .$after(document.getElementById('app'))
-    .$remove(() => {})
     .$nextTick(() => {});
 
   vm
@@ -229,7 +179,6 @@ namespace TestVueUtil {
   b = _.isArray([]);
   _.def({}, 'test', 123);
   _.def({}, 'test2', 123, true);
-  f = _.debounce(() => {}, 100);
   b = _.looseEqual(1, '1');
 }
 
